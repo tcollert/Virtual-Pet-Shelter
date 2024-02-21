@@ -46,7 +46,7 @@ public class VirtualPetShelterApp {
 
         String newFriendsName = input.nextLine();
         System.out.println("It is great to meet you " + newFriendsName + "!" + " I can't wait to hang out!");
-        sonic.setPetDescription("My friends call me the little blue lightening bolt.");
+        sonic.getPetDescription();
 
         while (true) {
 

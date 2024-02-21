@@ -8,9 +8,7 @@ public class VirtualPet {
     private int petThirstLevel;
     private int petBoredomLevel;
 
-    public void sonicDescription() {
-        String sonicDescription = petDescription;
-        sonicDescription(this.getPetDescription);
+    public void myPetDescription(String petDescription) {
         this.setPetDescription("little blue lightening bolt");
 
     }
