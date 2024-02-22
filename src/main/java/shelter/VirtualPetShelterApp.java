@@ -54,8 +54,6 @@ public class VirtualPetShelterApp {
         System.out.println(
                 "It is great to meet you " + newFriendsName + "!" + " My friends and I cannot wait to hang out!");
 
-        Collection<VirtualPet> collection = sonicsPlace.getAllPets();
-
         while (true) {
 
             System.out.println("What should we do today?");
@@ -67,17 +65,40 @@ public class VirtualPetShelterApp {
             System.out.println(">> [5] Quit.");
             System.out.println("Check out our levels to help you decide what you want to do first.");
 
+            Collection<VirtualPet> collection = sonicsPlace.getAllPets();
+
             int choice = input.nextInt();
 
             sonicsPlace.allPetStatus(collection);
 
-            if (choice == 5) {
-                break;
+            if (choice == 0) {
+                System.out.println("Awesome! Who would you like to hang out with today? ");
+                boolean pickAFriend = false;
+
+                while (!pickAFriend) {
+                    for (VirtualPet pet : collection) {
+                        System.out.println("[" + pet.getPetName() + "] " + pet.getPetDescription());
+                    }
+                    String answer = input.nextLine();
+                    VirtualPet currentPet = sonicsPlace.findPet(answer);
+
+                    if (collection.contains(currentPet)) {
+                        sonicsPlace.playWith(answer, 2);
+                        System.out.println("Thanks for hanging out with " + currentPet.getPetName() + "!");
+                        pickAFriend = true;
+                    } else if (answer.toLowerCase().equals("quit")) {
+                        break;
+                    }
+
+                    if (choice == 5) {
+                        break;
+                    }
+
+                    sonicsPlace.updateAllTick(collection);
+                }
+
+                input.close();
             }
-
-            sonicsPlace.updateAllTick(collection);
         }
-
-        input.close();
     }
 }
