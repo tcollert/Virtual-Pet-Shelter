@@ -21,8 +21,6 @@ public class VirtualPetShelterApp {
         sonicsPlace.addPet(sally);
         sonicsPlace.addPet(knuckles);
 
-        Collection<VirtualPet> collection = sonicsPlace.getAllPets();
-
         System.out.println("Hey there! My name is " + sonic + " What is your name?");
         System.out.println("                     _.-*'\"      \"`*-._                   \r\n" + //
                 "                _.-*'                  `*-._              \r\n" + //
@@ -55,6 +53,8 @@ public class VirtualPetShelterApp {
         String newFriendsName = input.nextLine();
         System.out.println(
                 "It is great to meet you " + newFriendsName + "!" + " My friends and I cannot wait to hang out!");
+
+        Collection<VirtualPet> collection = sonicsPlace.getAllPets();
 
         while (true) {
 
