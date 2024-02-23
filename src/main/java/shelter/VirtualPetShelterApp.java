@@ -11,17 +11,8 @@ public class VirtualPetShelterApp {
         Scanner input = new Scanner(System.in);
 
         VirtualPetShelter sonicsPlace = new VirtualPetShelter();
-        VirtualPet sonic = new VirtualPet("Sonic", "The blue blur Hedgehog.");
-        VirtualPet tails = new VirtualPet("Tails", "Can fly with his tails.");
-        VirtualPet sally = new VirtualPet("Sally", "Is Sonic's girl!");
-        VirtualPet knuckles = new VirtualPet("Knuckles", "Has a temper!");
 
-        sonicsPlace.addPet(sonic);
-        sonicsPlace.addPet(tails);
-        sonicsPlace.addPet(sally);
-        sonicsPlace.addPet(knuckles);
-
-        System.out.println("Hey there! My name is " + sonic + " What is your name?");
+        System.out.println("Hey there! My name is Sonic. What is your name?");
         System.out.println("                     _.-*'\"      \"`*-._                   \r\n" + //
                 "                _.-*'                  `*-._              \r\n" + //
                 "             .-'                            `-.           \r\n" + //
@@ -53,6 +44,7 @@ public class VirtualPetShelterApp {
         String newFriendsName = input.nextLine();
         System.out.println(
                 "It is great to meet you " + newFriendsName + "!" + " My friends and I cannot wait to hang out!");
+        System.out.println("Let me introduce you to my friends." + sonicsPlace.sonicAndFriends.values());
 
         while (true) {
 
@@ -73,32 +65,51 @@ public class VirtualPetShelterApp {
 
             if (choice == 0) {
                 System.out.println("Awesome! Who would you like to hang out with today? ");
-                boolean pickAFriend = false;
-
-                while (!pickAFriend) {
-                    for (VirtualPet pet : collection) {
-                        System.out.println("[" + pet.getPetName() + "] " + pet.getPetDescription());
-                    }
-                    String answer = input.nextLine();
-                    VirtualPet currentPet = sonicsPlace.findPet(answer);
-
-                    if (collection.contains(currentPet)) {
-                        sonicsPlace.playWith(answer, 2);
-                        System.out.println("Thanks for hanging out with " + currentPet.getPetName() + "!");
-                        pickAFriend = true;
-                    } else if (answer.toLowerCase().equals("quit")) {
-                        break;
-                    }
-
-                    if (choice == 5) {
-                        break;
-                    }
-
-                    sonicsPlace.updateAllTick(collection);
-                }
-
-                input.close();
+                System.out.println(sonicsPlace.sonicAndFriends.values());
+                String answer = input.nextLine();
+                String petToPlayWith = answer;
+                sonicsPlace.playWithOneFriend(petToPlayWith);
+                System.out.println("You played with " + petToPlayWith);
+                VirtualPet currentPet = sonicsPlace.findPet(answer);
+                System.out.println("Thanks for hanging with " + currentPet + "!");
             }
+
+            else if (choice == 1) {
+                sonicsPlace.feedSonicAndFriends();
+                System.out.println("Thanks for feeding me and my friends");
+
+            } else if (choice == 2) {
+                sonicsPlace.hydrateSonicAndFriends();
+                System.out.println("That was refreshing! Thanks!");
+
+            } else if (choice == 3) {
+                System.out.println("Which friend would you like to adopt?");
+                System.out.println(sonicsPlace.sonicAndFriends.values());
+                String answer = input.nextLine();
+                String friendToBeAdopted = answer;
+                sonicsPlace.sonicAndFriends.remove(friendToBeAdopted);
+                System.out.println(friendToBeAdopted + " has been adopted!");
+
+            } else if (choice == 4) {
+                String answer = input.nextLine();
+                String friendNameToBeAdded = answer;
+                System.out.println("Please choose a name for our new friend...");
+                String newPetName = input.nextLine();
+                System.out.println("Please give a brief description of our new friend...");
+                String friendDescription = input.nextLine();
+                sonicsPlace.addPet(new VirtualPet.Builder().name(newPetName).description(friendDescription).build());
+                System.out.println(sonicsPlace.findPet(newPetName).getPetName() + ", welcome to the family!");
+
+                VirtualPet petToBeAdded = sonicsPlace.addPetaddPet(VirtualPet);
+                sonicsPlace.addPet(petToBeAdded);
+
+            } else if (choice == 5) {
+                break;
+            }
+
+            sonicsPlace.tickAllPets();
         }
+
+        input.close();
     }
 }
