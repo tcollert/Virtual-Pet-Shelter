@@ -1,5 +1,6 @@
 package shelter;
 
+import java.util.Collection;
 import java.util.Scanner;
 
 public class VirtualPetShelterApp {
@@ -10,27 +11,21 @@ public class VirtualPetShelterApp {
         Scanner input = new Scanner(System.in);
 
         VirtualPetShelter sonicsPlace = new VirtualPetShelter();
-        VirtualPet sonic = new VirtualPet();
 
-        sonic.setSonicsPal1("Tails");
-        sonic.setSonicsPal2("Sally");
-        sonic.setSonicsPal3("Knuckles");
-        sonic.setPetName("Sonic The Hedgehog");
-        sonic.setSonicsBoredomLevel(50);
-        sonic.setSonicsHungerLevel(50);
-        sonic.setSonicsThirstLevel(50);
+        VirtualPet sonic = new VirtualPet("Sonic", "The blue blur Hedgehog.");
+        VirtualPet tails = new VirtualPet("Tails", "Can fly with his tails.");
+        VirtualPet amy = new VirtualPet("Amy ", "Is Sonic's girl!");
+        VirtualPet blaze = new VirtualPet("Blaze", "The Cat!");
 
-        sonicsPlace.sonicAndFriends.add("Sonic");
-        sonicsPlace.sonicAndFriends.add("Tails");
-        sonicsPlace.sonicAndFriends.add("Sally");
-        sonicsPlace.sonicAndFriends.add("Knuckles");
+        // adding pets to map
+        sonicsPlace.addPet(sonic);
+        sonicsPlace.addPet(tails);
+        sonicsPlace.addPet(amy);
+        sonicsPlace.addPet(blaze);
 
-        String petName = sonic.getPetName();
-        String sonicsPal1 = sonic.getSonicsPal1();
-        String sonicsPal2 = sonic.getSonicsPal2();
-        String sonicsPal3 = sonic.getSonicsPal3();
+        Collection<VirtualPet> collection = sonicsPlace.getAllPets();
 
-        System.out.println("Hey there! My name is " + petName + " What is your name?");
+        System.out.println("Hey there! My name is Sonic. What is your name?");
         System.out.println("                     _.-*'\"      \"`*-._                   \r\n" + //
                 "                _.-*'                  `*-._              \r\n" + //
                 "             .-'                            `-.           \r\n" + //
@@ -62,10 +57,7 @@ public class VirtualPetShelterApp {
         String newFriendsName = input.nextLine();
         System.out.println(
                 "It is great to meet you " + newFriendsName + "!" + " My friends and I cannot wait to hang out!");
-        sonic.setSonicsDescription("Fun fact, my friends call me the blue blur. I am super fast and super blue!");
-        System.out.println(sonic.getSonicsDescription());
-        System.out.println(newFriendsName + ", I would like you to meet my friends. They are: " + sonicsPal1
-                + sonicsPal2 + sonicsPal3);
+        System.out.println("Let me introduce you to my friends." + sonicsPlace.getAllPets());
 
         while (true) {
 
@@ -77,49 +69,51 @@ public class VirtualPetShelterApp {
             System.out.println(">> [4] Bring a new friend for us at Sonic's Place.");
             System.out.println(">> [5] Quit.");
             System.out.println("Check out our levels to help you decide what you want to do first.");
-            System.out.println("Sonic's boredom level is: " + sonic.getSonicsBoredomLevel());
-            System.out.println("Sonic's thirst level is: " + sonic.getSonicsThirstLevel());
-            System.out.println("Sonic's hunger level is: " + sonic.getSonicsHungerLevel());
+
+            sonicsPlace.allPetStatus(collection);
+
             int choice = input.nextInt();
 
-            if (choice == 3) {
-                System.out.println("Sorry to see you go!");
-                break;
-            }
-            int minLevel = sonic.getSonicsBoredomLevel();
-            if (minLevel < 0) {
-                sonic.setSonicsBoredomLevel(minLevel + 15);
-            }
-            int maxLevel = sonic.getSonicsBoredomLevel();
-            if (maxLevel > 100) {
-                sonic.setSonicsBoredomLevel(maxLevel - 15);
-            }
             if (choice == 0) {
-                sonic.running();
+                System.out.println("Awesome! Who would you like to hang out with today? ");
+                String answer = input.nextLine();
+                String pet = answer;
+                sonicsPlace.playWithOneFriend(pet);
+                System.out.println("You played with " + pet);
+                VirtualPet petToPlayWith = sonicsPlace.findPet(answer);
+                System.out.println("Thanks for hanging with " + petToPlayWith + "!");
+
             }
-            int minLevel2 = sonic.getSonicsHungerLevel();
-            if (minLevel2 < 0) {
-                sonic.setSonicsHungerLevel(minLevel2 + 15);
-            }
-            int maxLevel2 = sonic.getSonicsHungerLevel();
-            if (maxLevel2 > 100) {
-                sonic.setSonicsHungerLevel(maxLevel2 - 15);
-            }
+
             if (choice == 1) {
-                sonic.feedMe();
-            }
-            int minLevel3 = sonic.getSonicsThirstLevel();
-            if (minLevel3 < 0) {
-                sonic.setSonicsThirstLevel(minLevel3 + 15);
-            }
-            int maxLevel3 = sonic.getSonicsThirstLevel();
-            if (maxLevel3 > 100) {
-                sonic.setSonicsThirstLevel(maxLevel3 - 15);
+                sonicsPlace.feedSonicAndFriends();
+                System.out.println("Thanks for feeding me and my friends");
 
             } else if (choice == 2) {
-                sonic.hydration();
+                sonicsPlace.hydrateSonicAndFriends();
+                System.out.println("That was refreshing! Thanks!");
+
+            } else if (choice == 3) {
+                System.out.println("Which friend would you like to adopt?");
+                System.out.println(sonicsPlace.sonicAndFriends.values());
+                String answer = input.nextLine();
+                String friendToBeAdopted = answer;
+                sonicsPlace.sonicAndFriends.remove(friendToBeAdopted);
+                System.out.println(friendToBeAdopted + " has been adopted!");
+
+            } else if (choice == 4) {
+                System.out.println("Please choose a name for our new friend...");
+                String newPetName = input.nextLine();
+                System.out.println("Please give a brief description of our new friend...");
+                String friendDescription = input.nextLine();
+                sonicsPlace.addPet(new VirtualPet(newPetName, friendDescription));
+                System.out.println("Thanks for bringing us a new friend!");
+
+            } else if (choice == 5) {
+                break;
             }
-            sonic.tick();
+
+            sonicsPlace.updateAllTick(collection);
         }
 
         input.close();
