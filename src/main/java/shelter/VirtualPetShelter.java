@@ -8,16 +8,14 @@ public class VirtualPetShelter {
 
     Map<String, VirtualPet> sonicAndFriends = new HashMap<String, VirtualPet>();
 
-    public VirtualPet getSonicAndFriends(String requestedPet) {
-        VirtualPet friendsDesc = null;
-        for (Map.Entry<String, VirtualPet> sonicAndFriends : sonicAndFriends.entrySet()) {
-            String petName = sonicAndFriends.getKey();
-            if (requestedPet.equals(petName)) {
-                friendsDesc = sonicAndFriends.getValue();
+    public String getSonicAndFriends() {
+        String friendsList = "";
+        for (Map.Entry<String, VirtualPet> entry : sonicAndFriends.entrySet()) {
+            friendsList += (" Pet Name: " + entry.getKey());
+            friendsList += (", Pet Description: " + entry.getValue().getPetDescription());
 
-            }
         }
-        return friendsDesc;
+        return friendsList;
     }
 
     public void addPet(VirtualPet pet) {
@@ -51,8 +49,12 @@ public class VirtualPetShelter {
     }
 
     public void playWithOneFriend(String requestedFriendToPlay) {
-        VirtualPet pet = getSonicAndFriends(requestedFriendToPlay);
-        pet.running();
+        for (Map.Entry<String, VirtualPet> entry : sonicAndFriends.entrySet()) {
+            String petName = entry.getKey();
+            if (requestedFriendToPlay.equals(petName)) {
+                entry.getValue().running();
+            }
+        }
     }
 
     // update tick for all pets

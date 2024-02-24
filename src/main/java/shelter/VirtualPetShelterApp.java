@@ -57,7 +57,9 @@ public class VirtualPetShelterApp {
         String newFriendsName = input.nextLine();
         System.out.println(
                 "It is great to meet you " + newFriendsName + "!" + " My friends and I cannot wait to hang out!");
-        System.out.println("Let me introduce you to my friends." + sonicsPlace.getAllPets());
+        System.out.println("Let me introduce you to my friends." + sonicsPlace.getSonicAndFriends());
+
+        boolean keepPlaying = true;
 
         while (true) {
 
@@ -67,35 +69,30 @@ public class VirtualPetShelterApp {
             System.out.println(">> [2] Chill and have some Vitamin water with us.");
             System.out.println(">> [3] Adopt a friend to spend the day with.");
             System.out.println(">> [4] Bring a new friend for us at Sonic's Place.");
-            System.out.println(">> [5] Quit.");
-            System.out.println("Check out our levels to help you decide what you want to do first.");
-
-            sonicsPlace.allPetStatus(collection);
+            System.out.println(">> [5] quit");
 
             int choice = input.nextInt();
 
             if (choice == 0) {
                 System.out.println("Awesome! Who would you like to hang out with today? ");
+                System.out.println(sonicsPlace.getSonicAndFriends());
+                input.nextLine();
                 String answer = input.nextLine();
                 String pet = answer;
                 sonicsPlace.playWithOneFriend(pet);
                 System.out.println("You played with " + pet);
-                VirtualPet petToPlayWith = sonicsPlace.findPet(answer);
-                System.out.println("Thanks for hanging with " + petToPlayWith + "!");
-
             }
 
             if (choice == 1) {
                 sonicsPlace.feedSonicAndFriends();
-                System.out.println("Thanks for feeding me and my friends");
 
             } else if (choice == 2) {
                 sonicsPlace.hydrateSonicAndFriends();
-                System.out.println("That was refreshing! Thanks!");
 
             } else if (choice == 3) {
                 System.out.println("Which friend would you like to adopt?");
-                System.out.println(sonicsPlace.sonicAndFriends.values());
+                System.out.println(sonicsPlace.getSonicAndFriends());
+                input.nextLine();
                 String answer = input.nextLine();
                 String friendToBeAdopted = answer;
                 sonicsPlace.sonicAndFriends.remove(friendToBeAdopted);
@@ -103,16 +100,18 @@ public class VirtualPetShelterApp {
 
             } else if (choice == 4) {
                 System.out.println("Please choose a name for our new friend...");
+                input.nextLine();
                 String newPetName = input.nextLine();
                 System.out.println("Please give a brief description of our new friend...");
                 String friendDescription = input.nextLine();
                 sonicsPlace.addPet(new VirtualPet(newPetName, friendDescription));
                 System.out.println("Thanks for bringing us a new friend!");
-
-            } else if (choice == 5) {
-                break;
             }
 
+            if (keepPlaying == false) {
+                break;
+            }
+            sonicsPlace.allPetStatus(collection);
             sonicsPlace.updateAllTick(collection);
         }
 
