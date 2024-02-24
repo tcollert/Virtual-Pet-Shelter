@@ -95,14 +95,7 @@ public class VirtualPet {
 
     public void setPetDescription(String petDescription) {
         this.petDescription = petDescription;
-    }
 
-    public class Builder {
-
-        public Object name(String newPetName) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'name'");
-        }
     }
 
 }
